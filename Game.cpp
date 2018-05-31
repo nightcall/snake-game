@@ -10,6 +10,9 @@ Game::~Game() {
 }
 
 int Game::launch() {
+    sf::Clock clock;
+    clock.restart();
+
     while(myWindow.isOpen()) {
         sf::Event event;
         myWindow.pollEvent(event);
@@ -18,6 +21,10 @@ int Game::launch() {
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            mySnake.update();
+        }
+
+        if(clock.getElapsedTime().asSeconds() > sf::seconds(1)) {
             mySnake.update();
         }
 
