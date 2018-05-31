@@ -1,10 +1,11 @@
 # depslib dependency file v1.0
-1527797164 source:c:\users\saraband\desktop\test-cpp\test-cpp\game.cpp
+1527800251 source:c:\users\saraband\desktop\test-cpp\test-cpp\game.cpp
 	"Game.hpp"
 
-1527797028 c:\users\saraband\desktop\test-cpp\test-cpp\game.hpp
+1527799109 c:\users\saraband\desktop\test-cpp\test-cpp\game.hpp
 	<SFML/Graphics.hpp>
 	<iostream>
+	"Snake.hpp"
 
 1478556115 c:\users\saraband\documents\sfml-2.4.1\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -397,4 +398,14 @@
 1527796699 source:c:\users\saraband\desktop\test-cpp\test-cpp\main.cpp
 	<iostream>
 	"Game.hpp"
+
+1527800540 c:\users\saraband\desktop\test-cpp\test-cpp\snake.hpp
+	<iostream>
+	<SFML/Graphics.hpp>
+	"Utils.hpp"
+
+1527798918 c:\users\saraband\desktop\test-cpp\test-cpp\utils.hpp
+
+1527801354 source:c:\users\saraband\desktop\test-cpp\test-cpp\snake.cpp
+	"Snake.hpp"
 

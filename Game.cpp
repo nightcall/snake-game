@@ -17,7 +17,12 @@ int Game::launch() {
             myWindow.close();
         }
 
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            mySnake.update();
+        }
+
         myWindow.clear();
+        myWindow.draw(mySnake);
         myWindow.display();
     }
 
