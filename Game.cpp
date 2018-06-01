@@ -11,7 +11,6 @@ Game::~Game() {
 
 int Game::launch() {
     sf::Clock clock;
-    clock.restart();
 
     while(myWindow.isOpen()) {
         sf::Event event;
@@ -21,10 +20,23 @@ int Game::launch() {
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            mySnake.update();
+            mySnake.setDirection(Left);
         }
 
-        if(clock.getElapsedTime().asSeconds() > sf::seconds(1)) {
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            mySnake.setDirection(Right);
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+            mySnake.setDirection(Up);
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+            mySnake.setDirection(Down);
+        }
+
+        if(clock.getElapsedTime().asSeconds() > 1.f) {
+            clock.restart();
             mySnake.update();
         }
 
