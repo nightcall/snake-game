@@ -15,28 +15,33 @@
 #define NUM_BLOCKS_Y    (WIN_Y / BLOCK_Y)
 
 enum Direction {
-    Right,
-    Left,
-    Up,
-    Down
+	Right,
+	Left,
+	Up,
+	Down
 };
 
 class Snake : public sf::Drawable {
-    public:
-        Snake();
-        ~Snake();
-        void update();
-        void setDirection(Direction direction);
-        bool isMeatInSnake(sf::Vector2f) const;
-        void generateNextMeat();
+	public:
+		Snake();
+		~Snake();
+        void initialize();
+		void update();
+		void setDirection(Direction direction);
+		bool isBlockInSnake(sf::Vector2f) const;
+		void generateNextMeat();
+        bool isGameOver() const;
+        unsigned int points() const;
 
-    private:
-        Direction           myDirection;
-        Direction           myNextDirection;
-        unsigned int        myLength;
-        sf::RectangleShape  myBlocks[MAX_LENGTH];
-        sf::RectangleShape  myMeat;
+	private:
+        unsigned int        myPoints;
+        bool                myIsGameOver;
+		Direction           myDirection;
+		Direction           myNextDirection;
+		unsigned int        myLength;
+		sf::RectangleShape  myBlocks[MAX_LENGTH];
+		sf::RectangleShape  myMeat;
 
-        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 #endif // SNAKE_HPP

@@ -1,9 +1,24 @@
 #include "Snake.hpp"
 
-Snake::Snake() :
-myDirection         (Left),
-myNextDirection     (Left),
-myLength            (START_LENGTH) {
+Snake::Snake() {
+    initialize();
+}
+
+Snake::~Snake() {
+
+}
+
+unsigned int Snake::points() const {
+    return myPoints;
+}
+
+void Snake::initialize() {
+    myPoints = 0;
+    myIsGameOver = false;
+    myDirection = Left;
+    myNextDirection = Left;
+    myLength = START_LENGTH;
+
     // Initialize colors of snake
     for(unsigned int i(0); i < MAX_LENGTH; ++i) {
         myBlocks[i].setSize(sf::Vector2f(BLOCK_X, BLOCK_Y));
@@ -21,11 +36,7 @@ myLength            (START_LENGTH) {
     generateNextMeat();
 }
 
-Snake::~Snake() {
-
-}
-
-bool Snake::isMeatInSnake(sf::Vector2f position) const {
+bool Snake::isBlockInSnake(sf::Vector2f position) const {
     for(unsigned int i(0); i < myLength; ++i) {
         if(position == myBlocks[i].getPosition())
             return true;
@@ -40,7 +51,7 @@ void Snake::generateNextMeat() {
     do {
         nextMeatPosition.x = random(0, NUM_BLOCKS_X - 1) * BLOCK_X;
         nextMeatPosition.y = random(0, NUM_BLOCKS_Y - 1) * BLOCK_Y;
-    } while(isMeatInSnake(nextMeatPosition));
+    } while(isBlockInSnake(nextMeatPosition));
 
     myMeat.setPosition(nextMeatPosition);
     myMeat.setFillColor(sf::Color(random(0, 255), random(0, 255), random(0, 255)));
@@ -68,11 +79,41 @@ void Snake::update() {
             break;
     }
 
+    // Test if next head position is inside the snake e.g. has it eaten itself
+    if(isBlockInSnake(nextHeadPosition)) {
+        myIsGameOver = true;
+        return;
+    }
+
+    // Test if next head position is outside the box
+    if(nextHeadPosition.x < 0
+    || nextHeadPosition.x >= WIN_X
+    || nextHeadPosition.y < 0
+    || nextHeadPosition.y >= WIN_Y) {
+        myIsGameOver = true;
+        return;
+    }
+
+    // Shift snake to move it
     for(unsigned int i(myLength - 1); i > 0; --i) {
         myBlocks[i].setPosition(myBlocks[i - 1].getPosition());
     }
 
     myBlocks[0].setPosition(nextHeadPosition);
+
+    // Test if head of the snake has eaten a meat
+    if(nextHeadPosition == myMeat.getPosition()) {
+
+        // Test if snake can get any longer
+        if(myLength + 1 < MAX_LENGTH) {
+            myBlocks[myLength].setPosition(myBlocks[myLength - 1].getPosition());
+            myBlocks[myLength].setFillColor(myMeat.getFillColor());
+            ++myLength;
+            myPoints += 5;
+        }
+
+        generateNextMeat();
+    }
 }
 
 void Snake::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -83,6 +124,10 @@ void Snake::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
     // Draw meat
     target.draw(myMeat);
+}
+
+bool Snake::isGameOver() const {
+    return myIsGameOver;
 }
 
 void Snake::setDirection(Direction direction) {
